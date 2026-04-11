@@ -1,5 +1,7 @@
 name: test1
 run-name: test1 triggered bt ${{ github.actor }}
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 on:
   label:
     types:
