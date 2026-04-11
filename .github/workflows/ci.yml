@@ -25,7 +25,9 @@ jobs:
     steps:
       - run: echo Hi, ${{ github.actor }}
   
-  comiple-ubuntu:
+  test-ubuntu:
+    if: ${{ always() }}
+    needs: greeting-bash
     name: Comiple in ubuntu
     runs-on: ubuntu-latest
     steps:
@@ -33,27 +35,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_ubuntu
-  comiple-macos:
-    name: Comiple in macOS
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Comiple code
-        run: gcc -Wall -Wextra walawala.c -o walawala_macos
-  comiple-windows:
-    name: Comiple in windows
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Comiple code
-        run: gcc -Wall -Wextra walawala.c -o walawala_windows
-
-  test-ubuntu:
-    needs: comiple-ubuntu
-    runs-on: ${{ matrix.os }}
-    steps:
       - name: Run test1
         run: echo "5" | ./walawala_ubuntu | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
       - name: Run test2
@@ -61,9 +42,15 @@ jobs:
       - name: Run test3
         run: echo "-1243" | ./walawala_ubuntu | grep -q "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
   test-macos:
-    needs: comiple-macos
-    runs-on: ${{ matrix.os }}
+    if: ${{ always() }}
+    needs: greeting-bash
+    name: Comiple in macOS
+    runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Comiple code
+        run: gcc -Wall -Wextra walawala.c -o walawala_macos
       - name: Run test1
         run: echo "5" | ./walawala_macos | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
       - name: Run test2
@@ -71,9 +58,15 @@ jobs:
       - name: Run test3
         run: echo "-1243" | ./walawala_macos | grep -q "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
   test-windows:
-    needs: comiple-windows
-    runs-on: ${{ matrix.os }}
+    if: ${{ always() }}
+    needs: greeting-powershell
+    name: Comiple in windows
+    runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Comiple code
+        run: gcc -Wall -Wextra walawala.c -o walawala_windows
       - name: Run test1
         run: if (echo "5" | ./walawala | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
       - name: Run test2
