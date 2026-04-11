@@ -24,37 +24,29 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: echo Hi, ${{ github.actor }}
-
-  checkout_code:
-    if: ${{ always() }}
-    needs: [greeting-bash, greeting-powershell]
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
   
   comiple-ubuntu:
-    needs: checkout_code
     name: Comiple in ubuntu
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_ubuntu
   comiple-macos:
-    needs: checkout_code
     name: Comiple in macOS
     runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_macos
   comiple-windows:
-    needs: checkout_code
     name: Comiple in windows
     runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_windows
 
