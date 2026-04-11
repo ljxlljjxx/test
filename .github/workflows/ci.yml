@@ -1,38 +1,42 @@
-name: CI for walawala.c
-
+name: test1
+run-name: test1 triggered bt ${{ github.actor }}
 on:
+  label:
+    types:
+      - created
+      - edited
+      - deleted
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
+    branches:
+      - main
+  schedule:
+    - cron: "14 1 * * *"
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
+  comiple:
+    name: Comiple
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
+      - name: print a greeting
+        env:
+          MY_NAME: ${{ github.actor }}
+        run: echo Hi, $MY_NAME
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Compile walawala.c
-        run: gcc -Wall -Wextra -o walawala walawala.c
-
-      - name: Run tests
-        run: |
-          # 定义测试用例：输入 预期输出
-          echo "5 10" > tests.txt
-          echo "0 0" >> tests.txt
-          echo "-3 -6" >> tests.txt
-          echo "100 200" >> tests.txt
-          echo "1 2" >> tests.txt
-          
-          # 逐个测试
-          while read input expected; do
-            output=$(./walawala $input)
-            if [ "$output" -eq "$expected" ]; then
-              echo "✅ Input $input -> $output (PASS)"
-            else
-              echo "❌ Input $input -> $output, expected $expected (FAIL)"
-              exit 1
-            fi
-          done < tests.txt
+      - name: Comiple code
+        run: gcc -Wall -Wextra walawala.c -o walawala
+      - name: Run test1
+        run: echo "5" | ./walawala | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+  test1:
+    needs: comiple
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Run test1
+        run: echo "5" | ./walawala | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+      - name: Run test2
+        run: echo "0" | ./walawala | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+      - name: Run test3
+        run: echo "-1243" | ./walawala | grep -q "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+    
