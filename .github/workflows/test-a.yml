@@ -1,4 +1,4 @@
-name: test1
+name: test a.py
 run-name: test1 triggered bt ${{ github.actor }}
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -36,14 +36,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Compile code
-        run: gcc -Wall -Wextra walawala.c -o walawala_ubuntu
       - name: Run test1
-        run: bash -c 'echo "5" | ./walawala_ubuntu | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: bash -c 'echo "5" | python a.py | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
       - name: Run test2
-        run: bash -c 'echo "0" | ./walawala_ubuntu | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: bash -c 'echo "0" | python a.py | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
       - name: Run test3
-        run: bash -c 'echo "-1243" | ./walawala_ubuntu | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: bash -c 'echo "-1243" | python a.py | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
   test-macos:
     if: ${{ always() }}
     needs: greeting-bash
@@ -52,14 +50,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Compile code
-        run: gcc -Wall -Wextra walawala.c -o walawala_macos
       - name: Run test1
-        run: echo "5" | ./walawala_macos | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+        run: echo "5" | python a.py | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
       - name: Run test2
-        run: echo "0" | ./walawala_macos | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)     
+        run: echo "0" | python a.py | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)     
       - name: Run test3
-        run: echo "-1243" | ./walawala_macos | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
+        run: echo "-1243" | python a.py | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
   test-windows:
     if: ${{ always() }}
     needs: greeting-powershell
@@ -68,11 +64,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Compile code
-        run: gcc -Wall -Wextra walawala.c -o walawala_windows
       - name: Run test1
-        run: if (echo "5" | ./walawala_windows | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "5" | python a.py | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
       - name: Run test2
-        run: if (echo "0" | ./walawala_windows | Select-String "0") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "0" | python a.py | Select-String "0") { "Accepted" } else { "Unaccepted"; exit 1 }
       - name: Run test3
-        run: if (echo "-1243" | ./walawala_windows | Select-String "-2486") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "-1243" | python a.py | Select-String "-2486") { "Accepted" } else { "Unaccepted"; exit 1 }
