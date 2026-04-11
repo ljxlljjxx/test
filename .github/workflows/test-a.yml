@@ -11,7 +11,7 @@ on:
   push:
     branches:
       - main
-      - test_ci
+      - '**'
   schedule:
     - cron: "14 1 * * *"
 jobs:
