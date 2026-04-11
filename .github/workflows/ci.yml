@@ -31,12 +31,12 @@ jobs:
   test-ubuntu:
     if: ${{ always() }}
     needs: greeting-bash
-    name: Comiple in ubuntu
+    name: Compile in ubuntu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Comiple code
+      - name: Compile code
         run: gcc -Wall -Wextra walawala.c -o walawala_ubuntu
       - name: Run test1
         run: bash -c 'echo "5" | ./walawala_ubuntu | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
@@ -47,12 +47,12 @@ jobs:
   test-macos:
     if: ${{ always() }}
     needs: greeting-bash
-    name: Comiple in macOS
+    name: Compile in macOS
     runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Comiple code
+      - name: Compile code
         run: gcc -Wall -Wextra walawala.c -o walawala_macos
       - name: Run test1
         run: echo "5" | ./walawala_macos | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
@@ -63,12 +63,12 @@ jobs:
   test-windows:
     if: ${{ always() }}
     needs: greeting-powershell
-    name: Comiple in windows
+    name: Compile in windows
     runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Comiple code
+      - name: Compile code
         run: gcc -Wall -Wextra walawala.c -o walawala_windows
       - name: Run test1
         run: if (echo "5" | ./walawala_windows | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
