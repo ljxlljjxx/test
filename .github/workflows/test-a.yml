@@ -31,21 +31,21 @@ jobs:
   test-ubuntu:
     if: ${{ always() }}
     needs: greeting-bash
-    name: Compile in ubuntu
+    name: test in ubuntu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run test1
-        run: bash -c 'echo "5" | python a.py | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: echo "5" | python a.py | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)
       - name: Run test2
-        run: bash -c 'echo "0" | python a.py | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: echo "0" | python a.py | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)
       - name: Run test3
-        run: bash -c 'echo "-1243" | python a.py | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: echo "-1243" | python a.py | grep -q -- "-2486" && echo "Accepted" || (echo "Unaccepted"; exit 1)
   test-macos:
     if: ${{ always() }}
     needs: greeting-bash
-    name: Compile in macOS
+    name: test in macOS
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -59,7 +59,7 @@ jobs:
   test-windows:
     if: ${{ always() }}
     needs: greeting-powershell
-    name: Compile in windows
+    name: test in windows
     runs-on: windows-latest
     steps:
       - name: Checkout code
