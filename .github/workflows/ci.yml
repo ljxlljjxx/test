@@ -52,7 +52,13 @@ jobs:
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_macos
       - name: Run test1
-        run: bash -c 'echo "5" | ./walawala_macos | grep -q "10" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
+        run: |
+          bash -c 'if [echo "5" | ./walawala_macos | grep -eq "10"]; then
+            echo "Accepted"
+          else
+            echo "Unaccepted"; exit 1
+          fi
+          '
       - name: Run test2
         run: bash -c 'echo "0" | ./walawala_macos | grep -q "0" && echo "Accepted" || (echo "Unaccepted"; exit 1)'
       - name: Run test3
@@ -68,8 +74,8 @@ jobs:
       - name: Comiple code
         run: gcc -Wall -Wextra walawala.c -o walawala_windows
       - name: Run test1
-        run: if (echo "5" | ./walawala | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "5" | ./walawala_windows | Select-String "10") { "Accepted" } else { "Unaccepted"; exit 1 }
       - name: Run test2
-        run: if (echo "0" | ./walawala | Select-String "0") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "0" | ./walawala_windows | Select-String "0") { "Accepted" } else { "Unaccepted"; exit 1 }
       - name: Run test3
-        run: if (echo "-1243" | ./walawala | Select-String "-2486") { "Accepted" } else { "Unaccepted"; exit 1 }
+        run: if (echo "-1243" | ./walawala_windows | Select-String "-2486") { "Accepted" } else { "Unaccepted"; exit 1 }
